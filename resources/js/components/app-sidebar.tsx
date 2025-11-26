@@ -22,6 +22,16 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'User Management',
+        href: '/user-management',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Task management',
+        href: '/task',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
