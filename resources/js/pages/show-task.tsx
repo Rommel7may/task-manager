@@ -5,6 +5,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { SendHorizonal } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default function ShowTask({tasks}: {tasks:Task[]}){
     return (
@@ -15,8 +26,31 @@ export default function ShowTask({tasks}: {tasks:Task[]}){
                         <Card className="gap-2">
                             <CardHeader>
                                 <div className="flex justify-between">
+                                    <div className="space-y-2">
                                     <CardTitle>{task.title}</CardTitle>
-                                    <Button size="sm">Add Work</Button>
+                                    <CardDescription
+                                        className="text-red-600 font-medium">
+                                        Missing
+                                    </CardDescription>
+                                    </div>
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button size="sm">Add Work</Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Add Work</DialogTitle>
+                                            <DialogDescription>
+                                                <Input type="file"/>
+                                            </DialogDescription>
+                                            <DialogFooter className="space-x-2">
+                                                <Button variant="ghost">Discard</Button>
+                                                <Button>Turn In</Button>
+                                            </DialogFooter>
+                                            </DialogHeader>
+                                        </DialogContent>
+                                    </Dialog>
+                                    {/* <p className="text-green-700 text-base">Turned In</p> */}
                                 </div>
                                 
                                 <CardDescription>{task.class}</CardDescription>
@@ -28,24 +62,25 @@ export default function ShowTask({tasks}: {tasks:Task[]}){
                                 <p>{task.description}</p>
                                 <CardDescription>Due: {task.due_date}</CardDescription>
                             </CardContent>
-                            <Card className="m-4 mb-0">
+                            {/* <Card className="m-4 mb-0">
                                 <CardHeader>
                                     <CardTitle>Comments</CardTitle>
                                 </CardHeader>
-                                <CardContent className="h-full max-h-26 overflow-y-auto">
-                                    <p><span className="font-bold">You:</span> asd</p>
-                                    <p>Natoy: Lorem, ipsum dolor.</p>
-                                    <p><span className="font-bold">You:</span> asd</p>
-                                    <p>Natoy: Lorem, ipsum dolor.</p>
-                                    <p><span className="font-bold">You:</span> asd</p>
-                                    <p>Natoy: Lorem, ipsum dolor.</p>
-                                    
-                                    <div>
-                                        <Textarea/>
-                                        <PaperPl></PaperPl>
+                                <CardContent className="px-6 grid gap-2">
+                                    <div className="h-full max-h-26 overflow-y-auto">
+                                        <p><span className="font-bold">You:</span> asd</p>
+                                        <p>Natoy: Lorem, ipsum dolor.</p>
+                                        <p><span className="font-bold">You:</span> asd</p>
+                                        <p>Natoy: Lorem, ipsum dolor.</p>
+                                        <p><span className="font-bold">You:</span> asd</p>
+                                        <p>Natoy: Lorem, ipsum dolor.</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Input type="text"/>
+                                        <SendHorizonal/>
                                     </div>
                                 </CardContent>
-                            </Card>
+                            </Card> */}
                         </Card>
                     ))}
             </div>
