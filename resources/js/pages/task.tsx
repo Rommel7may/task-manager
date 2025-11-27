@@ -75,64 +75,62 @@ export default function UserManagement({tasks}: {tasks: Task[]}){
             <Head title="User Management"/>
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {/* {auth.user.role !== 'user' && ( */}
-                <div className="flex justify-between">
-                    <InputGroup className="max-w-lg">
-                        <InputGroupInput placeholder="Search..." />
-                        <InputGroupAddon>
-                        <Search />
-                        </InputGroupAddon>
-                        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
-                    </InputGroup>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button>Create Task</Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-sm">
-                            <DialogHeader>
-                            <DialogTitle>Create Task</DialogTitle>
-                            <DialogDescription>
-                                Add a new task with a subject and class.
-                            </DialogDescription>
-                            </DialogHeader>
-                            <div className="space-y-4 py-2">
-                            <Input
-                                placeholder="Subject"
-                                value={data.subject}
-                                onChange={(e) => setData("subject", e.target.value)}
-                            />
-                            
-                            {errors.subject && <p className="text-red-600 text-sm">{errors.subject}</p>}
+                <div className="flex justify-end">
+                    {auth.user.role !== 'user' && (
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button>Create Task</Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-sm">
+                                <DialogHeader>
+                                <DialogTitle>Create Task</DialogTitle>
+                                <DialogDescription>
+                                    Add a new task with a subject and class.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-4 py-2">
+                                <Input
+                                    placeholder="Subject"
+                                    value={data.subject}
+                                    onChange={(e) => setData("subject", e.target.value)}
+                                />
+                                
+                                {errors.subject && <p className="text-red-600 text-sm">{errors.subject}</p>}
 
-                            {/* <Input
-                                placeholder="Class"
-                                value={data.class_name}
-                                onChange={(e) => setData("class_name", e.target.value)}
-                            /> */}
-                            <Select
-                            value={data.class_name} 
-                            onValueChange={(value) => setData("class_name", value)}
-                            >
-                                <SelectTrigger >
-                                    <SelectValue placeholder="Class"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="IT 3A">IT 3A</SelectItem>
-                                    <SelectItem value="IT 3B">IT 3B</SelectItem>
-                                    <SelectItem value="IT 3C">IT 3C</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            {errors.class_name && <p className="text-red-600 text-sm">{errors.class_name}</p>}
+                                {/* <Input
+                                    placeholder="Class"
+                                    value={data.class_name}
+                                    onChange={(e) => setData("class_name", e.target.value)}
+                                /> */}
+                                <Select
+                                value={data.class_name} 
+                                onValueChange={(value) => setData("class_name", value)}
+                                >
+                                    <SelectTrigger >
+                                        <SelectValue placeholder="Class"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="IT 3A">IT 3A</SelectItem>
+                                        <SelectItem value="IT 3B">IT 3B</SelectItem>
+                                        <SelectItem value="IT 3C">IT 3C</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {errors.class_name && <p className="text-red-600 text-sm">{errors.class_name}</p>}
 
-                            <Button className="w-full" onClick={handleSubmit} disabled={processing}>
-                                {processing ? "Saving..." : "Save Task"}
-                            </Button>
-                            </div>
-                        </DialogContent>
+                                <Button className="w-full" onClick={handleSubmit} disabled={processing}>
+                                    {processing ? "Saving..." : "Save Task"}
+                                </Button>
+                                </div>
+                            </DialogContent>
                         </Dialog>
+                    )}
 
                 </div>
                 {/* ads)} */}
                 <div className="flex-1 space-y-4">
+                    {tasks.length <= 0 && (
+                        <p className="text-center text-gray-500">No Subject yet.</p>
+                    )}
                     {tasks.map((task) => (
                         <Card className="hover:shadow-md transition gap-4" onClick={() => handleShow(task.id)}>
                             <CardHeader>

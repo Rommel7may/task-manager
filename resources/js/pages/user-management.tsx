@@ -111,7 +111,7 @@ export default function UserManagement({ users }: { users: User[] }) {
         email: '',
         role: 'user',
         password: '',
-        class_name: '3A',
+        class_name: 'IT 3A',
     });
 
     const submitCreate = () => {
@@ -127,7 +127,7 @@ export default function UserManagement({ users }: { users: User[] }) {
         name: '',
         email: '',
         role: 'user',
-        class_name: '3A',
+        class_name: 'IT 3A',
     });
 
     function openEdit(user: UserType & { class_name?: string }) {
@@ -136,7 +136,7 @@ export default function UserManagement({ users }: { users: User[] }) {
             name: user.name,
             email: user.email,
             role: user.role,
-            class_name: user.class_name ?? '3A',
+            class_name: user.class_name ?? 'IT IT 3A',
         });
         setEditOpen(true);
     }
@@ -306,17 +306,17 @@ export default function UserManagement({ users }: { users: User[] }) {
                                         }
                                     >
                                         <SelectTrigger>
-                                            <SelectValue />
+                                            <SelectValue placeholder="Select a class"/>
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="3A">
-                                                3A
+                                            <SelectItem value="IT 3A">
+                                                IT 3A
                                             </SelectItem>
-                                            <SelectItem value="3B">
-                                                3B
+                                            <SelectItem value="IT 3B">
+                                                IT 3B
                                             </SelectItem>
-                                            <SelectItem value="3C">
-                                                3C
+                                            <SelectItem value="IT 3C">
+                                                IT 3C
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -434,9 +434,9 @@ export default function UserManagement({ users }: { users: User[] }) {
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="3A">3A</SelectItem>
-                                        <SelectItem value="3B">3B</SelectItem>
-                                        <SelectItem value="3C">3C</SelectItem>
+                                        <SelectItem value="IT 3A">IT 3A</SelectItem>
+                                        <SelectItem value="IT 3B">IT 3B</SelectItem>
+                                        <SelectItem value="IT 3C">IT 3C</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,6 @@ class TaskController extends Controller
     {
 
         $userClass = auth()->user()->class_name ?? 'irreg';
-
-
         $tasks = Task::where('class_name', $userClass) 
                 ->orWhere('creator_id', auth()->id()) 
                 ->get();
@@ -61,7 +60,16 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {   
+        if(auth()->user()->id !== $task->creator_id){
+            abort(403);
+        }
+
         $task->load(['subtasks.users']);
+        $classUserCount = User::where('role', 'user') // Assuming 'user' role is a student
+        ->where('class_name', $task->class_name)
+        ->count();
+
+        $task->class_user_count = $classUserCount;
 
         return Inertia::render('show-task', [
             'task' => $task,

@@ -12,9 +12,10 @@ use App\Http\Controllers\StudentSubmissionController;
 
 
 Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    if(auth()->user()->role !== "user"){
+        return redirect()->route('user-management.index');
+    }
+    return redirect()->route("task.index");
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {

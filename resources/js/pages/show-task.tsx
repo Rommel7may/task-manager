@@ -64,7 +64,7 @@ type TaskType = {
   subject: string;
   class_name: string;
   subtasks: SubtaskType[];
-  
+  class_user_count: number; // Assumed to be available for the total count
 };
 
 export default function SubTask() {
@@ -142,11 +142,23 @@ export default function SubTask() {
     },
     },
     {
+      // The submitted column logic needs a return statement
+    header: "Submitted",
+    cell: ({ row }) => {
+      const submittedCount = row.original.users.filter(
+        (user) => user.pivot.status === 'submitted'
+      ).length;
 
-    header: "submitted",
-    cell: ({  }) => (
-      <div className="capitalize">11/ 20</div>
-    ),
+      // Get the total class size from the task prop
+      const totalCount = task.class_user_count;
+
+      // --- CORRECTED: Added return statement ---
+      return (
+        <div className="capitalize font-medium">
+          {submittedCount} / {totalCount}
+        </div>
+      );
+    },
     },
     {
       id: "actions",
@@ -201,6 +213,7 @@ export default function SubTask() {
           </div>
 
           {/* Create Subtask Modal */}
+          {auth.user.role !== 'user' && (
           <Dialog>
             <DialogTrigger asChild>
               <Button>Create Subtask</Button>
@@ -249,10 +262,11 @@ export default function SubTask() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          )}
         </div>
 
         {/* Subtasks List */}
-        {auth.user.role === 'teacher' ? 
+        {auth.user.role !== 'user' ? 
           (
             // TEACHER POV
             <div className="overflow-hidden rounded-md border">
