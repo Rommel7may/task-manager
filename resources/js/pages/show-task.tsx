@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { SharedData } from "@/types";
+import { SharedData, User } from "@/types";
 import * as React from "react"
 import {
   ColumnDef,
@@ -64,14 +64,16 @@ type TaskType = {
   subject: string;
   class_name: string;
   subtasks: SubtaskType[];
-  class_user_count: number; // Assumed to be available for the total count
+  class_user_count: number;
+  creator_id: number;
 };
 
 export default function SubTask() {
   const { auth } = usePage<SharedData>().props;
-  const { task, auth_user_id } = usePage().props as unknown as {
+  const { task, auth_user_id, creator } = usePage().props as unknown as {
     task: TaskType;
     auth_user_id: number;
+    creator: User;
   };
 
   const [selectedFiles, setSelectedFiles] = useState<{ [key: number]: File | null }>({});
@@ -399,11 +401,11 @@ export default function SubTask() {
                       }
                       { done ? 
                         (
-                          <Button size="sm" variant="outline" onClick={() => router.visit(`/sub-task/${sub.id}/comment`)}>Comment</Button>
+                          <Button size="sm" variant="outline" onClick={() => router.visit(`/sub-task/${task.id}/${auth_user_id}/comment`)}>Comment</Button>
                         )
                         : missing ? 
                         (
-                          <Button size="sm" variant="outline" onClick={() => router.visit(`/sub-task/${sub.id}/comment`)}>Comment</Button>
+                          <Button size="sm" variant="outline" onClick={() => router.visit(`/sub-task/${task.id}/${auth_user_id}/comment`)}>Comment</Button>
                         )
                         : null
                       }

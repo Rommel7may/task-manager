@@ -60,9 +60,6 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {   
-        if(auth()->user()->id !== $task->creator_id){
-            abort(403);
-        }
 
         $task->load(['subtasks.users']);
         $classUserCount = User::where('role', 'user') // Assuming 'user' role is a student

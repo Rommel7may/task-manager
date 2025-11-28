@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Comment;
 use App\Models\SubTask;
@@ -167,15 +168,23 @@ class SubTaskController extends Controller
         ]);
     }
 
-    public function showComments(SubTask $subTask)
+    public function showComments(SubTask $subTask, $studentId)
     {
+        $subTask->load('task');
         $comments = Comment::where('sub_task_id', $subTask->id)
-            ->with('user') // include the poster
+            ->where('student_id', $studentId)
+            ->with('user') 
             ->orderBy('created_at', 'asc')
             ->get();
+        $student = User::where('id', $studentId)->first();
+        // creator of the task
+
+        $creator = User::where('id', $subTask->task->creator_id)->first();
 
         return Inertia::render('comment', [
             'subTask' => $subTask,
+            'student' => $student,
+            'creator' => $creator,
             'comments' => $comments,
         ]);
     }
@@ -183,13 +192,15 @@ class SubTaskController extends Controller
 
     public function storeComment(Request $request, SubTask $subTask)
     {
+
         $request->validate([
             'comment' => 'required|string'
         ]);
 
         Comment::create([
             'sub_task_id' => $subTask->id,
-            'user_id' => auth()->id(),
+            'teacher_id' => $request->teacher_id,
+            'student_id' => $request->student_id,
             'comment' => $request->comment,
         ]);
 

@@ -134,7 +134,7 @@ export default function StudentSubmission() {
         <Button
           size="sm"
           variant="secondary"
-          onClick={() => router.visit(`/sub-task/${row.original.subtask_id}/comment`)}
+          onClick={() => router.visit(`/sub-task/${row.original.subtask_id}/${row.original.id}/comment`)}
         >
           Comment
         </Button>

@@ -2,18 +2,23 @@ import Heading from "@/components/heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import AppLayout from "@/layouts/app-layout";
-import { CommentType, SubTaskType } from "@/types";
+import { CommentType, SubTaskType, User } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
 import { SendHorizontal } from "lucide-react";
 
 interface CommentPageProps {
   subTask: SubTaskType;
   comments: CommentType[];
-  selectedStudentId: number; // pass the student being commented to
+  student: User;
+  creator: User;
 }
 
-export default function Comment({ subTask, comments, selectedStudentId }: CommentPageProps) {
-   const { data, setData, post, processing } = useForm({ comment: '' });
+export default function Comment({ subTask, comments, student, creator }: CommentPageProps) {
+   const { data, setData, post, processing } = useForm({ 
+    comment: '',
+    teacher_id: creator.id,
+    student_id: student.id
+});
 
     const handleSendComment = () => {
         setData('comment', ""); 
@@ -29,7 +34,8 @@ export default function Comment({ subTask, comments, selectedStudentId }: Commen
             <Head title="Comment"/>
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <Heading title={subTask.title}/>
-
+                <p>Task Creator: {creator.name}</p>
+                <p>Student: {student.name}</p>
                 <div className="min-h-24 space-y-6">
 
                     <Card>
@@ -42,10 +48,10 @@ export default function Comment({ subTask, comments, selectedStudentId }: Commen
                                     <CardDescription>No Comment yet</CardDescription>
                                 )}
                                 {comments.map(comment => (
-                                    <p key={comment.id} className="grid grid-cols-[auto_1fr] gap-2">
-                                        <div className="font-medium">{comment.user.name}:</div>
-                                        <div>{comment.comment}</div>
-                                    </p>
+                                    <div key={comment.id} className="grid grid-cols-[auto_1fr] gap-2">
+                                        <p className="font-medium">{comment.user.name}:</p>
+                                        <p>{comment.comment}</p>
+                                    </div>
                                 ))}
 
                             </div>
@@ -58,7 +64,7 @@ export default function Comment({ subTask, comments, selectedStudentId }: Commen
                         onChange={(e) => setData('comment', e.target.value)}
                     />
                     <button
-                        onClick={handleSendComment}
+                        onClick={() => handleSendComment()}
                         className="cursor-pointer p-2 rounded bg-gray-200 hover:bg-gray-300"
                         disabled={processing || !data.comment.trim()}
                     >

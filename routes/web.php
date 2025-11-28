@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        abort(404);
     })->name('dashboard');
 
     Route::resource('student-submission', StudentSubmissionController::class);
@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
      Route::get('/sub-task/{subtask}/submission', [SubTaskController::class, 'submissions']);
      // Show comments for a specific subtask
-    Route::get('/sub-task/{subTask}/comment', [SubTaskController::class, 'showComments'])->name('sub-task.comment');
+    Route::get('/sub-task/{subTask}/{studentId}/comment', [SubTaskController::class, 'showComments'])->name('sub-task.comment');
 
     // Store a new comment
     Route::post('/sub-task/{subTask}/comment', [SubTaskController::class, 'storeComment'])->name('sub-task.comment.store');
